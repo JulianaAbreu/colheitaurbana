@@ -1,0 +1,8 @@
+{
+  "name": "colheitaurbana",
+  "app_id": "9a083ce2",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
