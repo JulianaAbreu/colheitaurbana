@@ -79,13 +79,10 @@
     <allow-navigation href="http://192.168.127.2:8100" />
     <allow-navigation href="http://192.168.56.1:8100" />
     <engine name="android" spec="6.4.0" />
+    <engine name="browser" spec="5.0.3" />
     <plugin name="cordova-plugin-bluetooth-serial" spec="^0.4.7" />
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
-    </plugin>
-    <plugin name="cordova-plugin-googlemaps" spec="^2.2.8">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAt8s4gbwPIFRbCZdh_sZiCcJs_fIIOr14" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyAt8s4gbwPIFRbCZdh_sZiCcJs_fIIOr14" />
     </plugin>
     <plugin name="cordova-plugin-nativestorage" spec="^2.3.1" />
     <plugin name="cordova-plugin-qrscanner" spec="^2.5.0" />
@@ -94,4 +91,11 @@
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.16" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
+    <plugin name="cordova-plugin-googlemaps" spec="^2.2.8">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyCOipVt0NBGVCymaPBVlSK8sp3d0FkuOGI" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyCTwYP9INsCqWZJAVSp4Nydb-b6oOr0Bio" />
+        <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
+        <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.0" />
+    </plugin>
 </widget>

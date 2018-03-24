@@ -5,7 +5,9 @@ import { MyApp } from './app.component';
 //Incluindo módulo HTTP para consumir API
 import { HttpClientModule} from '@angular/common/http';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { GoogleMaps } from '@ionic-native/google-maps';
 
+import { Component } from "@angular/core/";
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -45,7 +47,8 @@ import { ColheitaProvider } from '../providers/colheita/colheita';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     NativeStorage,
-    ColheitaProvider //Incluindo Colheita provider para consumir API
+    GoogleMaps,
+    ColheitaProvider, //Incluindo Colheita provider para consumir API
   ]
 })
 export class AppModule {}
