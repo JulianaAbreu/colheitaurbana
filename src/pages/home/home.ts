@@ -8,7 +8,7 @@ import {
   Marker  
  } from '@ionic-native/google-maps';
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController} from 'ionic-angular';
 import { ColheitaProvider } from '../../providers/colheita/colheita';
 import { NativeStorage } from '@ionic-native/native-storage';
 
