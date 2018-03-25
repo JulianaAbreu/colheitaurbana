@@ -43,19 +43,6 @@ export class HomePage {
     this.loadMap();
   }
 
-  bussola() {
-      // Get the device current compass heading
-      this.deviceOrientation.getCurrentHeading().then(
-        (data: DeviceOrientationCompassHeading) => data,
-        (error: any) => console.log(error)
-      );    
-      // Watch the device compass heading change
-      var subscribe = this.deviceOrientation.watchHeading().subscribe(
-        (data: DeviceOrientationCompassHeading) => data.magneticHeading,
-      );
-      return subscribe;   
-  }
-
   loadMap() {
 
     let localizacao : LatLng;
@@ -64,6 +51,14 @@ export class HomePage {
     }).catch((error) => {
       alert("Não foi possível achar sua localização atual!");
     });
+
+    var subscribe = this.deviceOrientation.watchHeading().subscribe(
+      (data: DeviceOrientationCompassHeading) => this.map.animateCamera({
+        target: localizacao,
+        bearing: data.trueHeading,
+        duration: 3000 // = 1 sec.
+      }),
+    );
 
 
     let mapOptions: GoogleMapOptions = {
@@ -142,6 +137,7 @@ export class HomePage {
 
       });
   }
+
 
   public salva(){
         this.nativeStorage.setItem('myitem', {property: 'value', anotherProperty: 'anotherValue'})
