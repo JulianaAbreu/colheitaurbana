@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "5.2.9",
     "@ionic-native/bluetooth-serial": "^4.6.0",
     "@ionic-native/core": "^4.5.3",
+    "@ionic-native/device-orientation": "^4.6.0",
     "@ionic-native/geolocation": "^4.6.0",
     "@ionic-native/google-maps": "^4.6.0",
     "@ionic-native/native-storage": "^4.6.0",
@@ -37,6 +38,7 @@
     "cordova-plugin-bluetooth-serial": "^0.4.7",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^2.0.1",
+    "cordova-plugin-device-orientation": "^1.0.7",
     "cordova-plugin-geolocation": "^4.0.1",
     "cordova-plugin-googlemaps": "^2.2.8",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
@@ -76,7 +78,8 @@
         "API_KEY_FOR_IOS": "AIzaSyCTwYP9INsCqWZJAVSp4Nydb-b6oOr0Bio",
         "PLAY_SERVICES_VERSION": "11.8.0",
         "ANDROID_SUPPORT_V4_VERSION": "24.1.0"
-      }
+      },
+      "cordova-plugin-device-orientation": {}
     },
     "platforms": [
       "android",

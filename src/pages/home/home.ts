@@ -9,10 +9,11 @@ import {
   LatLng
  } from '@ionic-native/google-maps';
 import { Component } from '@angular/core';
-import { NavController} from 'ionic-angular';
+import { NavController, Platform} from 'ionic-angular';
 import { ColheitaProvider } from '../../providers/colheita/colheita';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Geolocation } from '@ionic-native/geolocation';
+import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation';
 
 @Component({
   selector: 'page-home',
@@ -23,20 +24,36 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 })
 export class HomePage {
-  
+    
   map:GoogleMap;
+  orientacao:any;
 
   constructor(
     public navCtrl: NavController, 
+    public platform: Platform,
     public colheitaProvider: ColheitaProvider, 
     private nativeStorage: NativeStorage,
-    private geolocation: Geolocation
+    private geolocation: Geolocation,
+    private deviceOrientation: DeviceOrientation,
+    
   ) {
-
   }
 
   ionViewDidLoad(){
     this.loadMap();
+  }
+
+  bussola() {
+      // Get the device current compass heading
+      this.deviceOrientation.getCurrentHeading().then(
+        (data: DeviceOrientationCompassHeading) => data,
+        (error: any) => console.log(error)
+      );    
+      // Watch the device compass heading change
+      var subscribe = this.deviceOrientation.watchHeading().subscribe(
+        (data: DeviceOrientationCompassHeading) => data.magneticHeading,
+      );
+      return subscribe;   
   }
 
   loadMap() {
@@ -48,15 +65,25 @@ export class HomePage {
       alert("Não foi possível achar sua localização atual!");
     });
 
+
     let mapOptions: GoogleMapOptions = {
       
+      controls: { compass: true,
+                  myLocationButton: true, // GEOLOCATION BUTTON 
+                  indoorPicker: true, 
+                  zoom: true }, 
+      gestures: { scroll: true, 
+                  tilt: true, 
+                  rotate : true, 
+                  zoom : true },
       camera: {
         target: { 
           lat: -23.5788453, // São Paulo
           lng: -46.6092952  // São Paulo
         },
         zoom: 11.5,
-        tilt: 30
+        tilt: 80,
+        bearing: 0
       }
     };
 
@@ -66,12 +93,17 @@ export class HomePage {
     this.map.one(GoogleMapsEvent.MAP_READY)
       .then(() => {
 
-        // Minha localização.
-        this.map.addMarker({
-          title: 'Eu',
-          icon: { url : "./assets/icon/eu.png" },
-          animation: 'DROP',
-          position: localizacao
+        // Habilita minha localização
+        this.map.setMyLocationEnabled(true);
+        
+        this.map.setTrafficEnabled(true);
+
+        this.map.animateCamera({
+          target: localizacao,
+          tilt: 60,
+          zoom: 18,
+          bearing: 333,
+          duration: 2500 // = 5 sec.
         });
 
         // Doadora

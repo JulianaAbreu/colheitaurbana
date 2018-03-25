@@ -3,10 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 //Incluindo módulo HTTP para consumir API
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
+import { DeviceOrientation } from '@ionic-native/device-orientation';
 
 import { Component } from "@angular/core/";
 import { AboutPage } from '../pages/about/about';
@@ -50,6 +51,7 @@ import { ColheitaProvider } from '../providers/colheita/colheita';
     NativeStorage,
     GoogleMaps,
     Geolocation,
+    DeviceOrientation,
     ColheitaProvider, //Incluindo Colheita provider para consumir API
   ]
 })
