@@ -38,26 +38,24 @@ export class HomePage {
   ionViewDidLoad(){
     this.loadMap();
   }
-  
-  
-
 
   loadMap() {
-    
+
     let localizacao : LatLng;
     this.geolocation.getCurrentPosition().then((resp) => {
       localizacao = new LatLng(resp.coords.latitude, resp.coords.longitude);
     }).catch((error) => {
-      console.log('Erro ao tentar conseguir sua localização', error);
+      alert("Não foi possível achar sua localização atual!");
     });
 
     let mapOptions: GoogleMapOptions = {
+      
       camera: {
-        target: {
-          lat: -23.5396133, // Coordenadas do Banco de Alimentos
-          lng: -46.6704244  // Coordenadas do Banco de Alimentos
+        target: { 
+          lat: -23.5788453, // São Paulo
+          lng: -46.6092952  // São Paulo
         },
-        zoom: 12,
+        zoom: 11.5,
         tilt: 30
       }
     };
@@ -82,8 +80,8 @@ export class HomePage {
           icon: { url : "./assets/icon/doadora.png" },
           animation: 'DROP',
           position: {
-            lat: -23.5083844,
-            lng: -46.4731029
+            lat: -23.561184,
+            lng: -46.567688
           }
         })
         .then(marker => {
