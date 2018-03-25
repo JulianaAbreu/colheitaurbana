@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { HttpClientModule} from '@angular/common/http';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { GoogleMaps } from '@ionic-native/google-maps';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { Component } from "@angular/core/";
 import { AboutPage } from '../pages/about/about';
@@ -48,6 +49,7 @@ import { ColheitaProvider } from '../providers/colheita/colheita';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     NativeStorage,
     GoogleMaps,
+    Geolocation,
     ColheitaProvider, //Incluindo Colheita provider para consumir API
   ]
 })
