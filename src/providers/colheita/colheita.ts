@@ -21,4 +21,8 @@ export class ColheitaProvider {
     return this.http.get(this.baseApiPath + "/instituicoes");
   }
 
+  getDiario(){
+    return this.http.get(this.baseApiPath + "/diario/agendada");
+  }
+
 }

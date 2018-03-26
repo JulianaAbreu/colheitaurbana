@@ -28,6 +28,8 @@ export class HomePage {
   map:GoogleMap;
   orientacao:any;
 
+  diario = new Array<any>();
+
   constructor(
     public navCtrl: NavController, 
     public platform: Platform,
