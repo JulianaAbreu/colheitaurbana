@@ -1,9 +1,10 @@
+import { TabsPage } from './../tabs/tabs';
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { NavController, NavParams } from 'ionic-angular';
 import { ColheitaProvider } from '../../providers/colheita/colheita';
 import { loginModel } from '../../Model/loginModel';
-import { HomePage } from '../home/home';
+
 
 @Component({
   selector: 'page-login',
@@ -24,7 +25,7 @@ this.nav = nav;
   loginMotorista() {
     this.colheitaService.loginMotorista(JSON.stringify(this.login)).then((data) =>{
       //alert(data);
-      this.nav.push(HomePage);
+      this.nav.push(TabsPage);
       
     }, (error) =>{
       alert("Usuario não encontrado. Error: "+ error);
