@@ -47,21 +47,38 @@ export class HomePage {
 
   loadMap() {
 
-    let localizacao : LatLng;
+    
+    let localizacaoinicial : LatLng;
     this.geolocation.getCurrentPosition().then((resp) => {
-      localizacao = new LatLng(resp.coords.latitude, resp.coords.longitude);
+      localizacaoinicial = new LatLng(resp.coords.latitude, resp.coords.longitude);
     }).catch((error) => {
       alert("Não foi possível achar sua localização atual!");
     });
 
-    var subscribe = this.deviceOrientation.watchHeading().subscribe(
-      (data: DeviceOrientationCompassHeading) => this.map.animateCamera({
-        target: localizacao,
-        bearing: data.trueHeading,
-        duration: 3000 // = 1 sec.
-      }),
-    );
+    let compassoinicial;
+    this.deviceOrientation.getCurrentHeading().then(
+      (data: DeviceOrientationCompassHeading) => compassoinicial = data.trueHeading,
+      (error: any) => console.log(error)
+    ); 
 
+    // Atualiza conforme movimentos do compasso
+    var compasso:any;        
+    this.deviceOrientation.watchHeading().subscribe(
+      (data: DeviceOrientationCompassHeading) => 
+      this.map.animateCamera({
+        bearing: data.trueHeading,
+        duration: 1000
+      })        
+    )
+
+    // Atualiza conforme movimentos da localizacao
+    var localizacao: LatLng;
+    this.geolocation.watchPosition().subscribe((data2) => {
+      this.map.animateCamera({
+        target: {lat: data2.coords.latitude, lng: data2.coords.longitude},
+        duration: 1000
+      });      
+    })
 
     let mapOptions: GoogleMapOptions = {
       
@@ -78,7 +95,7 @@ export class HomePage {
           lat: -23.5788453, // São Paulo
           lng: -46.6092952  // São Paulo
         },
-        zoom: 11.5,
+        zoom: 12,
         tilt: 80,
         bearing: 0
       }
@@ -90,17 +107,17 @@ export class HomePage {
     this.map.one(GoogleMapsEvent.MAP_READY)
       .then(() => {
 
-        // Habilita minha localização
+        // Habilita botão da minha localização
         this.map.setMyLocationEnabled(true);
         
-        this.map.setTrafficEnabled(true);
+        // Habilita o tráfego
+        //this.map.setTrafficEnabled(true);
 
         this.map.animateCamera({
-          target: localizacao,
-          tilt: 60,
-          zoom: 18,
-          bearing: 333,
-          duration: 2500 // = 5 sec.
+          target: localizacaoinicial,
+          bearing: compassoinicial,
+          zoom: 19,
+          duration: 2000 // = 1 sec.
         });
 
         // Doadora
