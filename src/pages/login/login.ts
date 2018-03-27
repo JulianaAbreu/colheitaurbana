@@ -30,6 +30,8 @@ this.nav = nav;
       alert("Usuario não encontrado. Error: "+ error);
     });
 
+    //login
+
   }
 
 
