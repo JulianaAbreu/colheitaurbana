@@ -78,8 +78,6 @@
     </platform>
     <allow-navigation href="http://192.168.127.2:8100" />
     <allow-navigation href="http://192.168.56.1:8100" />
-    <engine name="android" spec="6.4.0" />
-    <engine name="browser" spec="5.0.3" />
     <plugin name="cordova-plugin-bluetooth-serial" spec="^0.4.7" />
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
@@ -99,4 +97,6 @@
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.0" />
     </plugin>
     <plugin name="cordova-plugin-device-orientation" spec="^1.0.7" />
+    <engine name="android" spec="6.4.0" />
+    <engine name="browser" spec="5.0.3" />
 </widget>
