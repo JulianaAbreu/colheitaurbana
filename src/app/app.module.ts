@@ -3,11 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 //Incluindo módulo HTTP para consumir API
-import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { Component } from "@angular/core/";
 import { AboutPage } from '../pages/about/about';
@@ -34,7 +35,8 @@ import { ColheitaProvider } from '../providers/colheita/colheita';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpClientModule, //Incluindo módulo HTTP para consumir API
+    IonicStorageModule.forRoot(),//Incluido para storage e login - Gabi
+    HttpModule, //Incluindo módulo HTTP para consumir API
   ],
   bootstrap: [IonicApp],
   entryComponents: [
