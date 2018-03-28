@@ -46,7 +46,6 @@ export class HomePage {
   }
 
   loadMap() {
-
     
     let localizacaoinicial : LatLng;
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -55,29 +54,13 @@ export class HomePage {
       alert("Não foi possível achar sua localização atual!");
     });
 
-    let compassoinicial;
-    this.deviceOrientation.getCurrentHeading().then(
-      (data: DeviceOrientationCompassHeading) => compassoinicial = data.trueHeading,
-      (error: any) => console.log(error)
-    ); 
-
-    // Atualiza conforme movimentos do compasso
-    var compasso:any;        
-    this.deviceOrientation.watchHeading().subscribe(
-      (data: DeviceOrientationCompassHeading) => 
-      this.map.animateCamera({
-        bearing: data.trueHeading,
-        duration: 1000
-      })        
-    )
-
-    // Atualiza conforme movimentos da localizacao
-    var localizacao: LatLng;
-    this.geolocation.watchPosition().subscribe((data2) => {
-      this.map.animateCamera({
-        target: {lat: data2.coords.latitude, lng: data2.coords.longitude},
-        duration: 1000
-      });      
+    this.geolocation.watchPosition().subscribe((data2) => {   
+       //this.map.setCameraTarget(new LatLng(data2.coords.latitude, data2.coords.longitude));
+       this.map.animateCamera({
+        target:  {lat: data2.coords.latitude, lng: data2.coords.longitude},
+        bearing: data2.coords.heading,
+        duration: 1000 // = 1 sec.
+      });          
     })
 
     let mapOptions: GoogleMapOptions = {
@@ -96,8 +79,7 @@ export class HomePage {
           lng: -46.6092952  // São Paulo
         },
         zoom: 12,
-        tilt: 80,
-        bearing: 0
+        tilt: 80
       }
     };
 
@@ -114,11 +96,22 @@ export class HomePage {
         //this.map.setTrafficEnabled(true);
 
         this.map.animateCamera({
-          target: localizacaoinicial,
-          bearing: compassoinicial,
-          zoom: 19,
-          duration: 2000 // = 1 sec.
+          target:  localizacaoinicial,
+          bearing: 0,
+          zoom: 18,
+          duration: 4000 // = 1 sec.
         });
+
+        // Banco de Alimentos
+        this.map.addMarker({
+          title: 'Banco de Alimentos',
+          icon: { url : "./assets/icon/banco-de-alimentos-pin.png" },
+          animation: 'DROP',
+          position: {
+            lat: -23.5396133,
+            lng: -46.6704244
+          }
+        })
 
         // Doadora
         this.map.addMarker({
