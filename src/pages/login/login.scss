@@ -1,16 +1,29 @@
 page-login {
-img{
-    max-width: 240px;
-    width: auto;
-    margin: auto;
-    padding: auto;
-}
 
-.icon{
-    text-align: center;
-}
+    img{
+        max-width: 200px;
+        width: auto;
+        margin: auto;
+        padding: auto;
+        margin-top: 50px;
+    }
 
-.alert{
-    color: #f6f6;
-}
+    .colheita{
+        width: 100%;
+        text-align: center;
+        font-size: 2.5em;
+        color:white;
+    }
+
+    .icon{
+        text-align: center;
+    }
+
+    .alert{
+        color: #f6f6;
+    }
+
+    .login{
+        background:  #EA6B3A;
+    }
 }
