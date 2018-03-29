@@ -22,6 +22,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 //Incluindo Colheita provider para consumir API
 import { ColheitaProvider } from '../providers/colheita/colheita';
+import { QRScanner } from '@ionic-native/qr-scanner';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ColheitaProvider } from '../providers/colheita/colheita';
     ContactPage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
+    VisitaPage
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { ColheitaProvider } from '../providers/colheita/colheita';
     ContactPage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
+    VisitaPage
   ],
   providers: [
     StatusBar,
@@ -54,6 +57,7 @@ import { ColheitaProvider } from '../providers/colheita/colheita';
     NativeStorage,
     GoogleMaps,
     Geolocation,
+    QRScanner,
     DeviceOrientation,
     ColheitaProvider, //Incluindo Colheita provider para consumir API
   ]

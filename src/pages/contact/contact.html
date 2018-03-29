@@ -14,7 +14,9 @@
 
     <ion-item-group>
       <ion-item-divider color="laranja">Agendadas</ion-item-divider>
-      <ion-item *ngFor="let visitas of diario">{{ visitas.instituicao.nome }}</ion-item>
+      <ion-item *ngFor="let visitas of diario">
+        <div (click)="iniciarVisita(visitas)">{{ visitas.instituicao.nome }}</div>
+      </ion-item>
     </ion-item-group>
 
     <ion-item-group>
