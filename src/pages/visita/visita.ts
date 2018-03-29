@@ -1,5 +1,7 @@
+import { ContactPage } from './../contact/contact';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
 
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 
@@ -24,6 +26,7 @@ export class VisitaPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+    public alertCtrl: AlertController,
     private qrScanner: QRScanner
   ) {
   }
@@ -38,30 +41,48 @@ export class VisitaPage {
   }
 
   validarQRCode(token){
+
+  // Pega o elemento App no geral para ocultá-lo enquanto o Scan acontecer  
   var ionApp = <HTMLElement>document.getElementsByTagName("ion-app")[0];
-  // Optionally request the permission early
+
+  // Verifica se foi concedida a permissão da câmera
   this.qrScanner.prepare()
   .then((status: QRScannerStatus) => {
      if (status.authorized) {
 
-      // start scanning
+       // Começa o Scan
        let scanSub = this.qrScanner.scan().subscribe((text: string) => {
          
          if(token == text){
-          alert('Token validado com sucesso!');
-            this.qrScanner.hide(); // hide camera preview
-            scanSub.unsubscribe(); // stop scanning
-            ionApp.style.display = 'block';
+
+            let alert = this.alertCtrl.create({
+              title: 'VISITA FINALIZADA!',
+              subTitle: 'A visita foi salva com sucesso!',
+              buttons: ['Fechar']
+            });
+            alert.present();
+            this.qrScanner.hide(); // Esconde o preview da câmera
+            scanSub.unsubscribe(); // Pára o Scan
+            ionApp.style.display = 'block'; // Volta o app ao normal
+            this.navCtrl.push(ContactPage);
+
          }else{
-           alert('Token inválido!');
-            this.qrScanner.hide(); // hide camera preview
-            scanSub.unsubscribe(); // stop scanning
-            ionApp.style.display = 'block';
+
+            let alert = this.alertCtrl.create({
+              title: 'TOKEN INVÁLIDO!',
+              subTitle: 'Falha ao tentar autenticar',
+              buttons: ['Tentar novamente']
+            });
+            alert.present();
+            this.qrScanner.hide(); // Esconde o preview da câmera
+            scanSub.unsubscribe(); // Pára o Scan
+            ionApp.style.display = 'block'; // Volta o app ao normal
+
          }         
          
        });
   
-       // show camera preview
+       // Mostra o preview da câmera
        ionApp.style.display = 'none';
        this.qrScanner.show();
   

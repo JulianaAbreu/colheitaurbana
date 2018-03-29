@@ -79,6 +79,7 @@ export class ContactPage {
   }
 
   public LoadDiario(){
+
     this.colheitaProvider.getDiario().subscribe(
       data => {
 
@@ -97,7 +98,8 @@ export class ContactPage {
           this.isRefreshing = false;
         }
       }
-    );   
+    );
+       
   }
 
 }

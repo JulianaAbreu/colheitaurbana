@@ -9,12 +9,13 @@ import {
   LatLng
  } from '@ionic-native/google-maps';
 import { Component } from '@angular/core';
-import { NavController, Platform} from 'ionic-angular';
+import { NavController, Platform, AlertController} from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { ColheitaProvider } from '../../providers/colheita/colheita';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation';
+import { VisitaPage } from '../visita/visita';
 
 @Component({
   selector: 'page-home',
@@ -29,10 +30,11 @@ export class HomePage {
   map:GoogleMap;
   orientacao:any;
 
+  public loader;
   public refresher;
   public isRefreshing: boolean = false;
 
-  diario = new Array<any>();
+  diario  = new Array<any>();
 
   constructor(
     public navCtrl: NavController, 
@@ -41,18 +43,33 @@ export class HomePage {
     private nativeStorage: NativeStorage,
     private geolocation: Geolocation,
     private deviceOrientation: DeviceOrientation,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController
   ) {
   }
 
-  ionViewDidEnter(){
-    this.loadMap();
+  ionViewDidLoad(): void {
+    this.abreCarregando();
+    setTimeout(()=>{
+      this.loadMap();
+    }, 1000);
+    this.fechaCarregando();
   }
 
-  
+  abreCarregando() {
+    this.loader = this.loadingCtrl.create({
+      content: "Carregando...",
+    });
+    this.loader.present();
+  }
+
+  fechaCarregando(){
+    this.loader.dismiss();
+  }
 
   loadMap() {
     
+
     let localizacaoinicial : LatLng;
     this.geolocation.getCurrentPosition().then((resp) => {
       localizacaoinicial = new LatLng(resp.coords.latitude, resp.coords.longitude);
@@ -119,69 +136,67 @@ export class HomePage {
           }
         })
 
-        // Doadora
-        this.map.addMarker({
-          title: 'Doadora',
-          icon: { url : "./assets/icon/doadora.png" },
-          animation: 'DROP',
-          position: {
-            lat: -23.561184,
-            lng: -46.567688
-          }
-        })
-        .then(marker => {
-          marker.on(GoogleMapsEvent.MARKER_CLICK)
-            .subscribe(() => {
-              confirm('Deseja iniciar uma visita neste local?');
-            });
-        });
+        this.colheitaProvider.getDiario().subscribe(
+          data => {    
+            this.diario = Array.of((data.json()[0]));
 
-        // Receptora
-        this.map.addMarker({
-          title: 'Receptora',
-          icon: { url : "./assets/icon/receptora.png" },
-          animation: 'DROP',
-          position: {
-            lat: -23.5401161,
-            lng: -46.6242617
+            for (var i = this.diario.length - 1; i >= 0; i--) {
+
+              var visita = this.diario[i];
+
+              this.map.addMarker({
+                title: this.diario[i].instituicao.nome,
+                icon: { url : "./assets/icon/"+ this.diario[i].instituicao.tipo +".png" },
+                animation: 'DROP',
+                position: {
+                  lat: this.diario[i].instituicao.enderecos[0].latitude,
+                  lng: this.diario[i].instituicao.enderecos[0].longitude
+                }
+                }).then(marker => {
+                  marker.on(GoogleMapsEvent.MARKER_CLICK)
+                    .subscribe(() => {
+
+                      this.iniciarVisita(visita);                                                        
+
+                    });
+                });
+  
           }
-        })
-        .then(marker => {
-          marker.on(GoogleMapsEvent.MARKER_CLICK)
-            .subscribe(() => {
-              confirm('Deseja iniciar uma visita neste local?');
-            });
-        });
+
+
+          },
+          error => {
+            console.log(error);
+          }
+        );
+
+        
 
       });
   }
 
+  iniciarVisita(visita){
+    let confirm = this.alertCtrl.create({
+      title: 'Iniciar visita?',
+      message: 'Deseja iniciar visita em: <br><b> '+ visita.instituicao.nome + '</b> ?',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+            console.log('Visita cancelada');
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.navCtrl.push(VisitaPage, { visita: visita });
+          }
+        }
+      ]
+    });
+    confirm.present();
 
-  public salva(){
-        this.nativeStorage.setItem('myitem', {property: 'value', anotherProperty: 'anotherValue'})
-      .then(
-        () => console.log('Stored item!'),
-        error => console.error('Error storing item', error)
-      );
   }
 
-  public recupera(){
-      this.nativeStorage.getItem('myitem')
-      .then(
-        data => console.log(data),
-        error => console.error(error)
-      );
-  }
-
-  public teste(){
-    this.colheitaProvider.getInstituicoes().subscribe(
-      data=>{
-        console.log(data)
-      },
-      error=>{
-        console.log(error)
-      }
-    )
-  }
   
 }
