@@ -35,24 +35,4 @@ export class ColheitaProvider {
 
   }
 
-
-
-userIsLogged() {
-  this.storage.get('token').then(
-    val => {
-      if (val !== undefined) {
-        return val;
-      } else {
-        return false;
-      }
-    }
-  );//só pode cadastrar, consultar, etc se estiver logado
-
-}
-
-logoutMotorista() {
-  this.storage.remove('token');
-
-}
-
 }

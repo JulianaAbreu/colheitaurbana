@@ -10,6 +10,7 @@ import {
  } from '@ionic-native/google-maps';
 import { Component } from '@angular/core';
 import { NavController, Platform} from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 import { ColheitaProvider } from '../../providers/colheita/colheita';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -28,6 +29,9 @@ export class HomePage {
   map:GoogleMap;
   orientacao:any;
 
+  public refresher;
+  public isRefreshing: boolean = false;
+
   diario = new Array<any>();
 
   constructor(
@@ -37,13 +41,15 @@ export class HomePage {
     private nativeStorage: NativeStorage,
     private geolocation: Geolocation,
     private deviceOrientation: DeviceOrientation,
-    
+    public loadingCtrl: LoadingController
   ) {
   }
 
-  ionViewDidLoad(){
+  ionViewDidEnter(){
     this.loadMap();
   }
+
+  
 
   loadMap() {
     
